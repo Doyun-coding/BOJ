@@ -3,13 +3,14 @@
 using namespace std;
 
 int N, M, K;
-long long arr[1000001];
-long long segmentTree[4000001];
-long long lazy[4000001];
+vector<long long> arr;
+vector<long long> segmentTree;
+vector<long long> lazy;
+vector<long long> ans;
 
 void updateLazy(int start, int end, int node) {
     if(lazy[node] != 0) {
-        segmentTree[node] += ((long long)end - start + 1) * lazy[node];
+        segmentTree[node] += (end - start + 1) * lazy[node];
         if(start != end) {
             lazy[node * 2] += lazy[node];
             lazy[node * 2 + 1] += lazy[node];
@@ -69,12 +70,16 @@ void update(int start, int end, int node, int left, int right, long long diff) {
 int main() {
     cin >> N >> M >> K;
 
+    arr.resize(N+1);
 
     for(int i = 1; i <= N; i++) {
         long long n;
         cin >> n;
         arr[i] = n;
     }
+
+    segmentTree.resize(4 * N);
+    lazy.resize(4 * N);
 
     initTree(1, N, 1);
 
@@ -95,8 +100,12 @@ int main() {
 
             long long sum = sumTree(1, N, 1, b, c);
 
-            cout << sum << "\n";
+            ans.push_back(sum);
         }
+    }
+
+    for(int i = 0; i < ans.size(); i++) {
+        cout << ans[i] << "\n";
     }
 
     return 0;
