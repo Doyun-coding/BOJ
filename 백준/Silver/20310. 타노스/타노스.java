@@ -15,6 +15,7 @@ public class Main {
         st = new StringTokenizer(br.readLine());
 
         S = st.nextToken();
+        sb = new StringBuilder();
 
         for(int i = 0; i < S.length(); i++) {
             if(S.charAt(i) == '0') {
@@ -28,21 +29,38 @@ public class Main {
         zero /= 2;
         one /= 2;
 
-//        sb = new StringBuilder();
-//        for(int i = 0)
+        int cnt = 0;
+        for(int i = 0; i < S.length(); i++) {
+            if(cnt >= one) {
+                sb.append(String.valueOf(S.charAt(i)));
+                continue;
+            }
 
-        sb = new StringBuilder();
-        for(int i = 0; i < zero; i++) {
-            sb.append("0");
+            if(S.charAt(i) == '1') {
+                cnt++;
+                sb.append("2");
+            }
+            else {
+                sb.append(String.valueOf(S.charAt(i)));
+            }
         }
 
-        for(int i = 0; i < one; i++) {
-            sb.append("1");
+        cnt = 0;
+        for(int i = S.length()-1; i > 0; i--) {
+            if(cnt >= zero) break;
+
+            if(S.charAt(i) == '0') {
+                cnt++;
+                sb.replace(i, i+1,"2");
+            }
         }
 
-        bw.write(sb.toString() + "\n");
+        for(int i = 0; i < sb.length(); i++) {
+            if(sb.charAt(i) != '2') {
+                System.out.print(String.valueOf(sb.charAt(i)) + "");
+            }
+        }
+        System.out.println();
 
-        bw.flush();
-        bw.close();
     }
 }
